@@ -31,16 +31,7 @@ public class Exercise5
         ListNode B = headB;
         while (A != null)
         {
-            if (!intersect.ContainsKey(A))
-            {
-                intersect.Add(A, 1);
-            }
-            else
-            {
-                int count;
-                intersect.TryGetValue(A, out count);
-                intersect[A] = count + 1;
-            }
+            intersect.Add(A, 1);
             A = A.next;
         }
 
