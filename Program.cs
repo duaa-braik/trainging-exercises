@@ -5,89 +5,79 @@ using System.Runtime.Intrinsics.X86;
 
 public class Stack <T>
 {
-    public T[] stack;
+    private T[] stack;
     private int top; // top points to the current element
-    public int capacity; 
-    //public int Capacity;
+    private readonly int MAX_SIZE = 10000;
 
-    public Stack(int capacity)
+    public Stack()
     {
-        this.capacity = capacity;
-        stack = new T[capacity];
+        stack = new T[MAX_SIZE];
         top = -1;
     }
 
-    private bool isEmpty()
+    private bool IsEmpty()
     {
         if (top == -1)
         {
             return true;
         }
-        else return false;
+        return false;
     }
 
-    private bool isFull()
+    private bool IsFull()
     {
-        if (top == capacity - 1) return true;
-        else return false;
+        if (top == stack.Length) return true;
+        return false;
     }
 
     public void Push (T t) // Stores an object on top of the stack.
     {
-        if (!isFull())
+        if (!IsFull())
         {
-            top = top + 1;
+            top++;
             stack[top] = t;
         }
-        else return;
         
     } 
     public T Pop() //  Removes the object on top of the stack and returns it.
     {
-        if (!isEmpty())
+        if (!IsEmpty())
         {
             T removed = stack[top];
-            top = top - 1;
-            capacity = capacity - 1;
+            top--;
             return removed;
         }
         else
         {
-            return default(T);
+            return default!;
         }
     }
     public void Print () // Prints out all stack objects.
     {
         // this method prints the stack starting from the top element (last element)
-
-        int temp = top;
-        Console.WriteLine("the elements of the stack are:");
-        while(temp >= 0)
+        Console.WriteLine("Elements of stack are:");
+        for(int i = top; i > -1; i--)
         {
-            Console.Write($"{stack[temp]}, ");
-            temp--;
+            Console.Write($"{stack[i]}, ");
         }
         Console.WriteLine();
 
     }
     public void Peak () // Prints the object on top of the stack if exists without removing it.
     {
-        if (!isEmpty())
+        if (!IsEmpty())
         {
             Console.WriteLine($"the Peak value is {stack[top]}");
         }
         else
         {
-            Console.WriteLine("the Stack is Empty");
+            Console.WriteLine("Stack is Empty");
         }
     }
     public void Clear() // Removes all objects from the stack.
     {
-        while(top >= 0)
-        {
-            Pop();
-        }
-        Console.WriteLine("the stack is empty now");
+        top = -1;
+        Console.WriteLine("Stack is empty now");
     }
 
 }
@@ -96,8 +86,7 @@ public class test
 {
     public static void Main(string[] args)
     {
-        //int[] stack = new int[500];
-        Stack<int> s = new Stack<int>(10);
+        Stack<int> s = new();
         
         s.Push(7);
         s.Push(10);
@@ -106,8 +95,11 @@ public class test
         s.Push(12);
         s.Peak();
         s.Print();
-        s.Pop();s.Pop();
+        Console.WriteLine($"Removed the elemnt: {s.Pop()}");
+        Console.WriteLine($"Removed the elemnt: {s.Pop()}");
         s.Peak();
         s.Clear();
+        s.Push(15);
+        s.Print();
     }
 }
